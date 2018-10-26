@@ -1,0 +1,29 @@
+.gh-code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(27,31,35,0.05);
+  border-radius: 3px;
+  color: initial;
+}
+
+.date-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.select-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+.date-row {
+  min-height: 100px;
+}
+
+.date-container {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: bold;
+}

@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro');
+
+@keyframes blink {
+  from, to { color: transparent; }
+  50% { color: #FFF; }
+}
+
+* {
+  font-family: 'Anonymous Pro', monospace;
+  color: #FFF;
+}
+
+body { background-color: #111; }
+.card { background-color: transparent;}
+.console-text { font-size: 4rem; }
+.blinking-cursor { animation: 1.2s blink step-end infinite; }
+
+.form-control, .form-control:focus {
+  background: transparent;
+  color: #FFF;
+}
+
+.gh-code {
+  color: #FFF;
+  background-color: rgba(255, 255, 255, 0.13);
+}
+
+.navbar.bg-light {
+  background: transparent !important;
+  border-bottom: 1px solid #333333;
+}
