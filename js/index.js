@@ -56,7 +56,7 @@ const appendYears = () => {
 const validateDaysInMonth = (event) => {
     const days = daysInMonth(event.target.value);
 
-    appendDays(days);
+    return appendDays(days);
 }
 
 // Validate year, we must check this if we want to be sure
@@ -66,7 +66,7 @@ const validateYear = () => {
 
     if (monthsSelect.value !== 'selectcard') {
         const days = daysInMonth(monthsSelect.value);
-        appendDays(days);
+        return appendDays(days);
     }
 }
 
@@ -105,7 +105,7 @@ const resetForm = (event) => {
 const dateMessage = (date) => {
     const dateContainer = htmlELements().dateContainer;
 
-    dateContainer.innerText = date;
+    return dateContainer.innerText = date;
 }
 
 // Function for checking filled fields in form
