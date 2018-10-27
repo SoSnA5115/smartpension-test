@@ -17,13 +17,6 @@ const htmlELements = () => {
     }
 }
 
-// Validate number of days and append them, based on selected Month
-const validateDaysInMonth = (event) => {
-    const days = daysInMonth(event.target.value);
-
-    appendDays(days);
-}
-
 // Helper function for appending days to HTML element
 // Each time we must reset parent body
 // To be sure to user will not choose a day which is not in curretn Month
@@ -59,18 +52,11 @@ const appendYears = () => {
     }
 }
 
-// Helper function which returns correct number of days if year is leap or not
-// Also checks this only for month 02
-const daysInMonth = (month) => {
-    const monthsSelect = htmlELements().monthsSelector;
-    const yearsSelect = htmlELements().yearsSelector;
-    let days = moment(month, "MM").daysInMonth();
+// Validate number of days and append them, based on selected Month
+const validateDaysInMonth = (event) => {
+    const days = daysInMonth(event.target.value);
 
-    if (isLeapYear(yearsSelect) && monthsSelect.value === '02') {
-        days++;
-    }
-
-    return days;
+    appendDays(days);
 }
 
 // Validate year, we must check this if we want to be sure
@@ -82,6 +68,19 @@ const validateYear = () => {
         const days = daysInMonth(monthsSelect.value);
         appendDays(days);
     }
+}
+
+// Helper function which returns correct number of days if year is leap or not
+// Also checks this only for month 02
+const daysInMonth = (month) => {
+    const yearsSelect = htmlELements().yearsSelector;
+    let days = moment(month, "MM").daysInMonth();
+
+    if (isLeapYear(yearsSelect) && month === '02') {
+        days++;
+    }
+
+    return days;
 }
 
 // Helper function for checking leap/not leap year
@@ -99,21 +98,14 @@ const setOption = (i) => {
 // Function for reseting form
 const resetForm = (event) => {
     event.target.reset();
-    hideDate();
+    dateMessage('Select full date to see it here...');
 }
 
-// Helper function for showing date when all fields are filled
-const showDate = (date) => {
+// Helper function for showing/hide date message
+const dateMessage = (date) => {
     const dateContainer = htmlELements().dateContainer;
 
-    dateContainer.innerHTML = moment(date, 'MM-DD-YYYY').format('ddd, ll');
-}
-
-// Helper function for hidding date when not all fields are filled
-const hideDate = () => {
-    const dateContainer = htmlELements().dateContainer;
-
-    dateContainer.innerText = 'Select full date to see it here...';
+    dateContainer.innerText = date;
 }
 
 // Function for checking filled fields in form
@@ -122,10 +114,11 @@ const getDate = () => {
     const form = htmlELements().form;
     const formData = new FormData(form);
 
-    const date = [formData.get('month'), formData.get('day'), formData.get('year')];
-    const checkDate = date.filter((item) => item === null ? false : true)
+    const formState = [formData.get('month'), formData.get('day'), formData.get('year')];
+    const date = formState.filter((item) => item === null ? false : true)
+    const formatedDate = moment(date.join('-'), 'MM-DD-YYYY').format('ddd, ll');
 
-    return (checkDate.length === 3) ? showDate(date.join('-')) : hideDate();
+    return (date.length === 3) ? dateMessage(formatedDate) : dateMessage('Select full date to see it here...');
 }
 
 // Triger init function
