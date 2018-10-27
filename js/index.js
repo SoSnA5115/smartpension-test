@@ -76,7 +76,7 @@ const daysInMonth = (month) => {
     const yearsSelect = htmlELements().yearsSelector;
     let days = moment(month, "MM").daysInMonth();
 
-    if (isLeapYear(yearsSelect) && month === '02') {
+    if (isLeapYear(yearsSelect.value) && month === '02') {
         days++;
     }
 
@@ -84,7 +84,7 @@ const daysInMonth = (month) => {
 }
 
 // Helper function for checking leap/not leap year
-const isLeapYear = (element) => moment([element.value]).isLeapYear();
+const isLeapYear = (year) => moment([year]).isLeapYear();
 
 // Helper function to set option element to select
 const setOption = (i) => {
@@ -116,9 +116,10 @@ const getDate = () => {
 
     const formState = [formData.get('month'), formData.get('day'), formData.get('year')];
     const date = formState.filter((item) => item === null ? false : true)
-    const formatedDate = moment(date.join('-'), 'MM-DD-YYYY').format('ddd, ll');
 
-    return (date.length === 3) ? dateMessage(formatedDate) : dateMessage('Select full date to see it here...');
+    return (date.length === 3) ?
+        dateMessage(moment(date.join('-'), 'MM-DD-YYYY').format('ddd, ll')) :
+        dateMessage('Select full date to see it here...');
 }
 
 // Triger init function
