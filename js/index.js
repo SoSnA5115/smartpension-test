@@ -18,16 +18,19 @@ const htmlELements = () => {
 }
 
 // Helper function for appending days to HTML element
-// Each time we must reset parent body
-// To be sure to user will not choose a day which is not in curretn Month
 const appendDays = (numberOfDays) => {
     const daysSelect = htmlELements().daysSelector;
+    const selectedDay = daysSelect.value;
 
-    daysSelect.innerHTML = '<option selected disabled>Select a Day...</option>';
+    daysSelect.innerHTML = '<option selected disabled value="selectCard">Select a Day...</option>';
 
     for (let i = 1; i <= numberOfDays; i += 1) {
         const option = setOption(i, daysSelect);
         daysSelect.append(option);
+    }
+
+    if (selectedDay.value !== 'selectCard') {
+        daysSelect.value = (parseInt(selectedDay, 10) > numberOfDays) ? numberOfDays.toString() : selectedDay;
     }
 }
 
@@ -54,7 +57,8 @@ const appendYears = () => {
 
 // Validate number of days and append them, based on selected Month
 const validateDaysInMonth = (event) => {
-    const days = daysInMonth(event.target.value);
+    const month = event.target.value;
+    const days = daysInMonth(month);
 
     return appendDays(days);
 }
@@ -64,7 +68,7 @@ const validateDaysInMonth = (event) => {
 const validateYear = () => {
     const monthsSelect = htmlELements().monthsSelector;
 
-    if (monthsSelect.value !== 'selectcard') {
+    if (monthsSelect.value !== 'selectCard') {
         const days = daysInMonth(monthsSelect.value);
         return appendDays(days);
     }
