@@ -1,25 +1,22 @@
+// Create config variable for all used HTML elements
+const htmlElements = {
+    daysSelector: document.getElementById('days'),
+    monthsSelector: document.getElementById('months'),
+    yearsSelector: document.getElementById('years'),
+    dateContainer: document.getElementById('date'),
+    form: document.getElementById('form'),
+}
 
 // Initialize default state for Months and Years
 // We can't do it for days because we don't know which Month and Year (leap or not) is selected
 const init = () => {
-    appendMonths();
-    appendYears();
+    appendMonths(htmlElements.monthsSelector);
+    appendYears(htmlElements.yearsSelector);
 };
-
-// Create handler for all used HTML elements
-const htmlELements = () => {
-    return {
-        daysSelector: document.getElementById('days'),
-        monthsSelector: document.getElementById('months'),
-        yearsSelector: document.getElementById('years'),
-        dateContainer: document.getElementById('date'),
-        form: document.getElementById('form'),
-    }
-}
 
 // Helper function for appending days to HTML element
 const appendDays = (numberOfDays) => {
-    const daysSelect = htmlELements().daysSelector;
+    const daysSelect = htmlElements.daysSelector;
     const selectedDay = daysSelect.value;
 
     daysSelect.innerHTML = '<option selected disabled value="selectCard">Select a Day...</option>';
@@ -35,23 +32,20 @@ const appendDays = (numberOfDays) => {
 }
 
 // Helper function for appending Months, triggered in init function
-const appendMonths = () => {
-    const monthsSelect = htmlELements().monthsSelector;
-
+const appendMonths = (monthsSelector) => {
     for (let i = 1; i <= 12; i += 1) {
         const option = setOption(i);
-        monthsSelect.append(option);
+        monthsSelector.append(option);
     }
 }
 
 // Helper function for appending Years, triggered in init function
-const appendYears = () => {
-    const yearsSelect = htmlELements().yearsSelector;
+const appendYears = (yearsSelector) => {
     const currentYear = moment().get('year');
 
     for (let i = currentYear; i >= currentYear - 120; i--) {
         const option = setOption(i);
-        yearsSelect.append(option);
+        yearsSelector.append(option);
     }
 }
 
@@ -66,10 +60,11 @@ const validateDaysInMonth = (event) => {
 // Validate year, we must check this if we want to be sure
 // to user will not choose 29 day of February when year is not leap
 const validateYear = () => {
-    const monthsSelect = htmlELements().monthsSelector;
+    const monthsSelect = htmlElements.monthsSelector;
 
     if (monthsSelect.value !== 'selectCard') {
         const days = daysInMonth(monthsSelect.value);
+
         return appendDays(days);
     }
 }
@@ -77,7 +72,7 @@ const validateYear = () => {
 // Helper function which returns correct number of days if year is leap or not
 // Also checks this only for month 02
 const daysInMonth = (month) => {
-    const yearsSelect = htmlELements().yearsSelector;
+    const yearsSelect = htmlElements.yearsSelector;
     let days = moment(month, "MM").daysInMonth();
 
     if (isLeapYear(yearsSelect.value) && month === '02') {
@@ -107,7 +102,7 @@ const resetForm = (event) => {
 
 // Helper function for showing/hide date message
 const dateMessage = (date) => {
-    const dateContainer = htmlELements().dateContainer;
+    const dateContainer = htmlElements.dateContainer;
 
     return dateContainer.innerText = date;
 }
@@ -115,7 +110,7 @@ const dateMessage = (date) => {
 // Function for checking filled fields in form
 // As return it shows or hide complete Date
 const getDate = () => {
-    const form = htmlELements().form;
+    const form = htmlElements.form;
     const formData = new FormData(form);
 
     const formState = [formData.get('month'), formData.get('day'), formData.get('year')];
